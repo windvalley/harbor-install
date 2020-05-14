@@ -12,14 +12,20 @@
 
 请提前安装好Docker, 并启动Docker服务, 提前安装好`docker-compose`命令.
 
+确保root用户能找到docker和docker-compose命令:
+```bash
+which docker
+which docker-compose
+```
+
 
 ## 执行安装脚本
 
 提前设置好`harbor_install.sh`脚本中的前3个变量:
 
 - `HARBOR_FQDN`, harbor服务的域名, 比如`reg.sre.im`, 解析到你部署harbor的服务器ip上.
-- `CERT_PUB`, harbor服务域名的证书公钥全路径名称.
-- `CERT_KEY`, harbor服务域名的证书私钥全路径名称.
+- `CERT_PUB`, harbor服务域名的证书公钥**全路径**名称.
+- `CERT_KEY`, harbor服务域名的证书私钥**全路径**名称.
 
 > 如果`CERT_PUB`和`CERT_KEY`只要有一个为空, 将使用自签证书.
 
@@ -69,5 +75,27 @@ docker image push $_
 
 ### Web UI
 
-浏览器访问`https://$HARBOR_FQDN`, 用户名密码: `admin/Harbor12345`
+浏览器访问`https://$HARBOR_FQDN`, 管理员用户名密码: `admin/Harbor12345`
 
+
+### 其他
+
+#### 修改默认服务端口
+
+如果想使用其他端口代替默认的`80`和`443`, 请手动修改如下文件:
+
+`/usr/local/harbor/harbor/docker-compose.yml`
+
+比如想使用8080和8443代替默认的`80`和`443`, 只需:
+
+```
+    ports:
+      - 80:8080
+      - 443:8443
+```
+修改为:
+```
+    ports:
+      - 8080:8080
+      - 8443:8443
+```

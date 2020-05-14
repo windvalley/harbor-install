@@ -6,7 +6,9 @@
 set -e
 
 HARBOR_FQDN=reg.sre.im
+# must be full path and filename is start with $HARBOR_FQDN
 CERT_PUB=
+# must be full path and filename is start with $HARBOR_FQDN
 CERT_KEY=
 
 INSTALL_DIR=/usr/local/harbor
@@ -56,6 +58,7 @@ tar xf harbor-online-installer-v${HARBOR_VERSION}.tgz
 
 # configure
 cd harbor
+cp harbor.yml.tmpl harbor.yml
 sed -i "s/reg.mydomain.com/$HARBOR_FQDN/g;
     s#/your/certificate/path#$INSTALL_DIR/certs/${HARBOR_FQDN}.crt#;
     s#/your/private/key/path#$INSTALL_DIR/certs/${HARBOR_FQDN}.key#;" harbor.yml
